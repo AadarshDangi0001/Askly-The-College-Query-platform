@@ -8,7 +8,7 @@ import ChatHeader from "./ChatHeader";
 // Configure axios to include credentials by default
 axios.defaults.withCredentials = true;
 
-const BACKEND_URL = "https://askly-the-college-query-platform.onrender.com/"; // This should match your backend port
+const BACKEND_URL = "https://askly-the-college-query-platform.onrender.com"; // This should match your backend port
 
 const ChatAI = ({ title }) => {
   const { user, isDesktop } = useUser();
