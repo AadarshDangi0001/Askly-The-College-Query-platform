@@ -4,7 +4,8 @@
 
  export const createChat = async (req, res) => {
         try {
-            const { title } = req.body;
+            // Default title if none provided
+            const title = req.body.title || "New Chat";
             const userId = req.user._id;
 
             const newChat = new chatModel({
@@ -53,5 +54,63 @@ export  const getMessages= async (req, res)=> {
         messages: messages
     })
 
+}
+
+export const updateChatTitle = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { title } = req.body;
+        const userId = req.user._id;
+
+        // Find chat and verify ownership
+        const chat = await chatModel.findOne({ _id: id, user: userId });
+        
+        if (!chat) {
+            return res.status(404).json({ message: "Chat not found or unauthorized" });
+        }
+
+        chat.title = title;
+        await chat.save();
+
+        res.status(200).json({
+            message: "Chat title updated successfully",
+            chat: {
+                _id: chat._id,
+                title: chat.title,
+                lastActivity: chat.updatedAt,
+                user: chat.user
+            }
+        });
+    } catch (error) {
+        console.error("Error updating chat title:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
+export const deleteChat = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user._id;
+
+        // Find chat and verify ownership
+        const chat = await chatModel.findOne({ _id: id, user: userId });
+        
+        if (!chat) {
+            return res.status(404).json({ message: "Chat not found or unauthorized" });
+        }
+
+        // Delete associated messages first
+        await messageModel.deleteMany({ chat: id });
+        
+        // Delete the chat
+        await chatModel.deleteOne({ _id: id });
+
+        res.status(200).json({
+            message: "Chat and associated messages deleted successfully"
+        });
+    } catch (error) {
+        console.error("Error deleting chat:", error);
+        res.status(500).json({ message: "Server error" });
+    }
 }
 

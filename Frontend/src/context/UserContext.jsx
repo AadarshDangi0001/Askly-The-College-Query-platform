@@ -7,6 +7,7 @@ export const useUser = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
+    _id: "65f57e79e38c2e4df0e0cd31", // Adding a test ID for development
     name: "Abhishek",
     profilePic: "https://randomuser.me/api/portraits/men/1.jpg",
   });
