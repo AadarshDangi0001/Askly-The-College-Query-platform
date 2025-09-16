@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: 'https://askly-the-college-query-platform.onrender.com/', 
+    origin: 'https://askly-the-college-query-platform.vercel.app/', 
     credentials: true, 
 }));
 
