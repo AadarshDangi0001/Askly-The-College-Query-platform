@@ -1,6 +1,7 @@
 // src/routes/Mainroutes.jsx
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import PrivateRoute from "./PrivateRoute.jsx";
 
 import Login from "../pages/Login.jsx";
 import Signup from "../pages/Signup.jsx";
@@ -18,19 +19,21 @@ import Settings from "../components/Settings.jsx";
 const Mainroutes = () => {
   return (
     <Routes>
-      {/* Public Routes (all visible) */}
+      {/* Public Routes */}
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
       <Route path="/" element={<Dashboard title="Dashboard" />} />
-      <Route path="/chat-ai" element={<ChatAI title="Chat AI" />} />
-      <Route path="/bulletin" element={<BulletBoard title="Bullet Board" />} />
-      <Route path="/offline" element={<OfflineMode title="Offline Mode" />} />
-      <Route path="/scan-docs" element={<ScanDocs title="Scan Docs" />} />
-      <Route path="/whatsapp-bot" element={<WhatsAppBot title="WhatsApp Bot" />} />
-      <Route path="/volunteers-help" element={<VolunteersHelp title="Volunteers Help" />} />
-      <Route path="/about" element={<AboutUs title="About Us" />} />
-      <Route path="/ai-agent" element={<AIAgent title="AI Agent" />} />
-      <Route path="/settings" element={<Settings title="Settings" />} />
+
+      {/* Protected Routes */}
+      <Route path="/chat-ai" element={<PrivateRoute><ChatAI title="Chat AI" /></PrivateRoute>} />
+      <Route path="/bulletin" element={<PrivateRoute><BulletBoard title="Bullet Board" /></PrivateRoute>} />
+      <Route path="/offline" element={<PrivateRoute><OfflineMode title="Offline Mode" /></PrivateRoute>} />
+      <Route path="/scan-docs" element={<PrivateRoute><ScanDocs title="Scan Docs" /></PrivateRoute>} />
+      <Route path="/whatsapp-bot" element={<PrivateRoute><WhatsAppBot title="WhatsApp Bot" /></PrivateRoute>} />
+      <Route path="/volunteers-help" element={<PrivateRoute><VolunteersHelp title="Volunteers Help" /></PrivateRoute>} />
+      <Route path="/about" element={<PrivateRoute><AboutUs title="About Us" /></PrivateRoute>} />
+      <Route path="/ai-agent" element={<PrivateRoute><AIAgent title="AI Agent" /></PrivateRoute>} />
+      <Route path="/settings" element={<PrivateRoute><Settings title="Settings" /></PrivateRoute>} />
     </Routes>
   );
 };

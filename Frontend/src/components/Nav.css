@@ -214,6 +214,10 @@ nav {
 
 /* ====== Desktop view ====== */
 @media (min-width: 1000px) {
+    nav{
+        z-index: 30000;
+
+    }
     .right-sec {
         width: 15%;
         background-color: #191918;
@@ -254,4 +258,54 @@ nav {
         gap: 1vh;
         margin-top: -4vh;
      }
+       .settings-wrapper {
+  position: relative;
+}
+
+.logout-box {
+  position: absolute;
+  left: 15vh;
+  bottom: 8vh;
+  background: #fff;
+  border: 0.063rem solid #ddd; /* 1px */
+  border-radius: 0.75rem; /* 12px */
+  padding: 1rem; /* 16px */
+  width: 14rem; /* 224px */
+  box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,0.15); /* 4px 12px */
+  z-index: 999;
+}
+
+.logout-box p {
+  margin-bottom: 0.75rem; /* 12px */
+  font-size: 0.875rem; /* 14px */
+  color: #333;
+  text-align: center;
+}
+
+.btn-logout {
+    background-color: #369FFF;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.875rem; /* 8px 14px */
+  border-radius: 0.375rem; /* 6px */
+  cursor: pointer;
+  margin-right: 0.5rem; /* 8px */
+  transition: background 0.3s;
+}
+
+
+
+.btn-cancel {
+  background: #f0f0f0;
+  border: none;
+  padding: 0.5rem 0.875rem; /* 8px 14px */
+  border-radius: 0.375rem; /* 6px */
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-cancel:hover {
+  background: #ddd;
+}
+
 }

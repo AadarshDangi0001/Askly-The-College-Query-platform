@@ -1,13 +1,20 @@
-import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+// src/components/Nav.jsx
+import React, { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
-import asklylogo from "../assets/asklylogo.png"
-import LoginLogo from '../assets/LoginLogo.png'
-import './Nav.css'
+import asklylogo from "../assets/asklylogo.png";
+import LoginLogo from '../assets/LoginLogo.png';
+import './Nav.css';
+import { toast } from 'react-toastify';
+import { useAuth } from "../context/AuthContext";
 
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const isDesktop = useMediaQuery({ query: "(min-width: 1000px)" });
+  const [showLogoutBox, setShowLogoutBox] = useState(false);
+
+  const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const user = {
     name: "Abhishek",
@@ -15,9 +22,19 @@ const Nav = () => {
     rollno: "0126CS231011"
   };
 
+  const handleLogout = async () => {
+    await logout(); // update AuthContext state
+    setShowLogoutBox(false);
+    toast.success("User logout");
+    navigate("/login");
+  };
+
+  const handleLinkClick = () => {
+    if (!isDesktop) setIsOpen(false); // close mobile menu on click
+  };
+
   return (
     <nav>
-      {/* ✅ Navbar visible on mobile */}
       {!isDesktop && (
         <div className='navbar'>
           <i
@@ -53,42 +70,42 @@ const Nav = () => {
             <div className="main-text">
               <p>Main</p>
 
-              <NavLink to="/" className={({ isActive }) => isActive ? "active dash" : "dash"}>
+              <NavLink to="/" onClick={handleLinkClick} className={({ isActive }) => isActive ? "active dash" : "dash"}>
                 <i className="ri-dashboard-line"></i>
                 <p>Dashboard</p>
               </NavLink>
 
-              <NavLink to="/chat-ai" className={({ isActive }) => isActive ? "active chat-ai" : "chat-ai"}>
+              <NavLink to="/chat-ai" onClick={handleLinkClick} className={({ isActive }) => isActive ? "active chat-ai" : "chat-ai"}>
                 <i className="ri-message-2-line"></i>
                 <p>Chat AI</p>
               </NavLink>
 
-              <NavLink to="/bulletin" className={({ isActive }) => isActive ? "active bullet" : "bullet"}>
+              <NavLink to="/bulletin" onClick={handleLinkClick} className={({ isActive }) => isActive ? "active bullet" : "bullet"}>
                 <i className="ri-book-open-line"></i>
                 <p>Bulletin</p>
               </NavLink>
 
-              <NavLink to="/scan-docs" className={({ isActive }) => isActive ? "active docs" : "docs"}>
+              <NavLink to="/scan-docs" onClick={handleLinkClick} className={({ isActive }) => isActive ? "active docs" : "docs"}>
                 <i className="ri-camera-line"></i>
                 <p>Scan Docs</p>
               </NavLink>
 
-              <NavLink to="/whatsapp-bot" className={({ isActive }) => isActive ? "active chat" : "chat"}>
+              <NavLink to="/whatsapp-bot" onClick={handleLinkClick} className={({ isActive }) => isActive ? "active chat" : "chat"}>
                 <i className="ri-wechat-2-line"></i>
                 <p>WhatsApp Bot</p>
               </NavLink>
 
-              <NavLink to="/volunteers-help" className={({ isActive }) => isActive ? "active help" : "help"}>
+              <NavLink to="/volunteers-help" onClick={handleLinkClick} className={({ isActive }) => isActive ? "active help" : "help"}>
                 <i className="ri-wechat-line"></i>
                 <p>Volunteers Help</p>
               </NavLink>
 
-              <NavLink to="/about" className={({ isActive }) => isActive ? "active about" : "about"}>
+              <NavLink to="/about" onClick={handleLinkClick} className={({ isActive }) => isActive ? "active about" : "about"}>
                 <i className="ri-notification-line"></i>
                 <p>About Us</p>
               </NavLink>
 
-              <NavLink to="/offline" className={({ isActive }) => isActive ? "active offline" : "offline"}>
+              <NavLink to="/offline" onClick={handleLinkClick} className={({ isActive }) => isActive ? "active offline" : "offline"}>
                 <i className="ri-wifi-off-line"></i>
                 <p>Offline Mode</p>
               </NavLink>
@@ -96,21 +113,39 @@ const Nav = () => {
 
             <div className="upcoming-head">
               <p>Upcoming</p>
-              <NavLink to="/ai-agent" className={({ isActive }) => isActive ? "active agent" : "agent"}>
+              <NavLink to="/ai-agent" onClick={handleLinkClick} className={({ isActive }) => isActive ? "active agent" : "agent"}>
                 <i className="ri-computer-line"></i>
                 <p>AI Agent</p>
               </NavLink>
             </div>
 
-            <NavLink to="/settings" className={({ isActive }) => isActive ? "active setting" : "setting"}>
+            <div
+              className="setting"
+              onClick={() => setShowLogoutBox(!showLogoutBox)}
+            >
               <i className="ri-settings-2-line"></i>
               <p>Settings</p>
-            </NavLink>
+            </div>
+
+            {showLogoutBox && (
+              <div className="logout-box">
+                <p>Are you sure you want to logout?</p>
+                <button className="btn-logout" onClick={handleLogout}>
+                  Logout
+                </button>
+                <button
+                  className="btn-cancel"
+                  onClick={() => setShowLogoutBox(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
     </nav>
-  )
-}
+  );
+};
 
-export default Nav
+export default Nav;

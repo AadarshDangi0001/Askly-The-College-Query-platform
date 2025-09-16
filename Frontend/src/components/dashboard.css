@@ -34,24 +34,23 @@ body {
 }
 
 .container img {
-    height: 22vh; /* 11.5rem ~ 184px */
+    height: 49vw; /* 11.5rem ~ 184px */
 }
 
 
 .container .dashchar {
     position: absolute;
-    top: -4vh; /* -2.3rem ~ -37px */
-    right: 5vw; /* 1.3rem ~ 21px */
-    height: 22vh; /* 12rem ~ 192px */
+    top: -8vw; /* -2.3rem ~ -37px */
+    right: 1vw; /* 1.3rem ~ 21px */
     z-index: 5;
 }
 .container .bridge{
-    margin-left: 3vh;
+    margin-left: 3vw;
     position: absolute;
-    top: 4vh; /* 2rem ~ 32px */
+    top: 10vw; /* 2rem ~ 32px */
     left: 2.2vw; /* 3rem ~ 48px */
     color: white;
-    font-size: 1.2rem;
+    font-size: 5vw;
     font-family: Righteous;
 }
 .features {
@@ -76,7 +75,7 @@ body {
 }
 
 .box1 {
-    height: 15vh; 
+  
     width: 43vw; 
     border-radius: 2vh;
     background-color: #EFDEC2;

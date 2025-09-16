@@ -283,13 +283,10 @@ const ChatAI = ({ title }) => {
 
   return (
     <div className="chatai">
-      {isDesktop && (
-        <ChatHeader 
-          title={<div className="title-container">
-            {/* <span> CHAT AI</span> */}
-          </div>}
-        />
-      )}
+      
+                 {isDesktop && <ChatHeader title={title} />}
+
+    
 
       <div className="contain">
         {!currentChatId && messages.length === 0 && (

@@ -6,7 +6,7 @@ import "./signup.css";
 import signupCha from "../assets/singupCha.png";
 import LoginLogo from "../assets/LoginLogo.png";
 import googleLogo from "../assets/Google__G__logo.webp";
-
+import { toast, ToastContainer } from "react-toastify";
 const Signup = () => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -57,8 +57,9 @@ const Signup = () => {
       );
 
       if (response.data?.user) {
-        alert("Account created!");
-        navigate("/");
+          toast.success("Account created successfully!");
+        setTimeout(() => navigate("/"), 1000);
+
       } else {
         setError(response.data?.message || "Signup failed");
       }

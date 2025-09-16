@@ -35,11 +35,11 @@ html, body {
   margin-top: 2vh;
 }
 .ScanDocs .scan-container img{
-  height: 28vh;
+  height: 58vw;
 }
 .ScanDocs .scan-container .rec {
 
-  margin-top: -2vh;
+  margin-top: -3vh;
 }
 
 .ScanDocs .scan-container .boy {
@@ -52,17 +52,17 @@ html, body {
 
 .ScanDocs .scan-container .bg-text {
   position: absolute;
-  top: 6vh;
-  left: 19vh;
+  top:  11vw;
+  left: 41vw;
   width: 53%;
   font-family: 'Righteous', sans-serif;
-  font-size: 2.6vh;
+  font-size: 5.3vw;
   color: white;
   line-height: 1.2;
   z-index: 10;
 }
 
-/* Files / Upload Section */
+
 .files {
   width: 99%;
   padding: 2vh 2vw;
@@ -235,111 +235,11 @@ html, body {
   word-wrap: break-word;
 }
 /* Tablet / Medium screens */
-@media (min-width: 400px) and (max-width: 999px) {
-  .ScanDocs {
-    padding: 2vh 3vw;
-  }
 
-  /* Scan Container */
-  .ScanDocs .scan-container {
-    flex-direction: column;
-    align-items: center;
-    margin-top: 3vh;
-  }
-
-  .ScanDocs .scan-container img {
-    height: 35vh;
-    width: auto;
-  }
-
-  .ScanDocs .scan-container .rec {
-    width: 60vw;
-    height: 35vh;
-    margin-left: 0;
-    margin-top: -1vh;
-  }
-
-  .ScanDocs .scan-container .boy {
-    top: -2vh;
-    left: 3vw;
-    height: 30vh;
-  }
-
-  .ScanDocs .scan-container .bg-text {
-    top: 5vh;
-    left: 10vw;
-    width: 70%;
-    font-size: 2.2vh;
-    line-height: 2.5vh;
-  }
-
-  /* Files / Upload Section */
-  .files {
-    width: 90%;
-    margin-top: 2vh;
-    height: auto;
-    padding: 2vh 2vw;
-  }
-
-  .file-upload {
-    height: 12vh;
-  }
-
-  .file-upload-icon {
-    font-size: 5vw;
-  }
-
-  .file-upload span {
-    font-size: 3vw;
-  }
-
-  .orpara .or {
-    font-size: 2.5vw;
-  }
-
-  /* Camera Section */
-  .camera {
-    min-height: 6vh;
-    padding: 1vh 2vw;
-  }
-
-  .camera i {
-    font-size: 5vw;
-  }
-
-  .camera .camtext {
-    font-size: 3vw;
-  }
-
-  .desktop-btn {
-    font-size: 2vw;
-    padding: 1vh 2vw;
-  }
-
-  .desktop-camera video {
-    max-width: 90%;
-  }
-
-  /* Output Section */
-  .out-text p {
-    font-size: 4vw;
-    margin-left: 1vw;
-  }
-
-  .output {
-    width: 95%;
-    margin-left: auto;
-    margin-right: auto;
-    height: auto;
-    min-height: 25vh;
-    padding: 1vh 2vw;
-  }
-}
 
 /* Desktop Layout */
 @media (min-width: 1000px) {
-  .ScanDocs {
-  }
+  
 
   .ScanDocs .scan-container {
 margin-top: 5vh;

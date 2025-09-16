@@ -235,12 +235,18 @@ button:hover {
     gap: 3vh;
     position: absolute;
   }
+    .signup-form p{
+    font-size: 1.5vh;
+   }
   .signup-form label{
-    font-size: 1.1vh;
+    font-size: 1.5vh;
   }
+   .signup-form input{
+    padding: 1.3vh;
+   }
   .signup-google {
     position: absolute;
-    bottom: -12vh;
+    bottom: -10vh;
     width: 100%;
   }
 
@@ -252,7 +258,7 @@ button:hover {
   .signup-error {
     color: red;
     position: absolute;
-    top: 6vh;
+    top: 9vh;
     left: 0;
     width: 100%;
   }
