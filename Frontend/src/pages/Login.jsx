@@ -18,6 +18,11 @@ const Login = () => {
   const { isAuthenticated, login } = useAuth();
   const { updateUser } = useUser();
 
+  // Helper to get auth headers
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
   // If already logged in → go to home
   useEffect(() => {
     if (isAuthenticated) {
