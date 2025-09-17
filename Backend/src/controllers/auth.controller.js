@@ -31,7 +31,17 @@ export const registerUser = async (req, res) => {
             { expiresIn: '1d' }
         );
 
-        res.cookie("token", token);
+        // Cross-site cookie settings for Vercel (frontend) -> Render (backend)
+        const isProd = process.env.NODE_ENV === 'production';
+        const cookieOptions = {
+            httpOnly: true,
+            secure: isProd, // required when SameSite is 'none'
+            sameSite: isProd ? 'none' : 'lax',
+            path: '/',
+            maxAge: 24 * 60 * 60 * 1000, // 1 day
+        };
+
+        res.cookie("token", token, cookieOptions);
         res.status(201).json({
             message: "User registered successfully",
             user: {
@@ -39,6 +49,7 @@ export const registerUser = async (req, res) => {
                 fullName: newUser.fullName,
                 email: newUser.email,
             },
+            token
         });
 
     } catch (error) {
@@ -67,7 +78,17 @@ export const loginUser = async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: "1d" }
         );
-        res.cookie("token", token, { httpOnly: true });
+
+        const isProd = process.env.NODE_ENV === 'production';
+        const cookieOptions = {
+            httpOnly: true,
+            secure: isProd, // cookies sent only over HTTPS in production
+            sameSite: isProd ? 'none' : 'lax',
+            path: '/',
+            maxAge: 24 * 60 * 60 * 1000,
+        };
+
+        res.cookie("token", token, cookieOptions);
         res.status(200).json({
             message: "Login successful",
             user: {
@@ -75,6 +96,7 @@ export const loginUser = async (req, res) => {
                 fullName: user.fullName,
                 email: user.email,
             },
+            token
         });
 
 
@@ -87,7 +109,14 @@ export const loginUser = async (req, res) => {
 }
 
 export const logoutUser = (req, res) => {
-    res.clearCookie("token");
+    const isProd = process.env.NODE_ENV === 'production';
+    const cookieOptions = {
+        httpOnly: true,
+        secure: isProd,
+        sameSite: isProd ? 'none' : 'lax',
+        path: '/',
+    };
+    res.clearCookie("token", cookieOptions);
     res.status(200).json({ message: "Logout successful" });
 }
 

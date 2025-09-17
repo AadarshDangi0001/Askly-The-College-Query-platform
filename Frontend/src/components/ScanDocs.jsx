@@ -102,11 +102,14 @@ const ScanDocs = ({ title }) => {
       }
 
       // POST to backend post API which creates a post and returns caption
-      const uploadResponse = await fetch("https://askly-the-college-query-platform.onrender.com/api/post", {
+      const API_BASE = import.meta.env.VITE_API_BASE || "https://askly-the-college-query-platform.onrender.com";
+      const token = localStorage.getItem('token');
+      const uploadResponse = await fetch(`${API_BASE}/api/post`, {
         method: "POST",
         body: formData,
         // include cookies for auth (backend sets token cookie)
         credentials: "include",
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       });
 
       if (!uploadResponse.ok) {

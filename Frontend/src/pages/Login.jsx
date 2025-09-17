@@ -18,11 +18,6 @@ const Login = () => {
   const { isAuthenticated, login } = useAuth();
   const { updateUser } = useUser();
 
-  // Helper to get auth headers
-  const getAuthHeaders = () => {
-    const token = localStorage.getItem('token');
-    return token ? { Authorization: `Bearer ${token}` } : {};
-  };
   // If already logged in → go to home
   useEffect(() => {
     if (isAuthenticated) {
@@ -52,6 +47,10 @@ const Login = () => {
 
       // backend returns { message, user }
       if (response.data?.user) {
+        // Save JWT as fallback for when cross-site cookies are blocked
+        if (response.data.token) {
+          localStorage.setItem('token', response.data.token);
+        }
         login();
         updateUser({
           name: `${response.data.user.fullName?.firstName || ""} ${response.data.user.fullName?.lastName || ""}`.trim(),

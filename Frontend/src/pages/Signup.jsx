@@ -57,6 +57,9 @@ const Signup = () => {
       );
 
       if (response.data?.user) {
+          if (response.data.token) {
+            localStorage.setItem('token', response.data.token);
+          }
           toast.success("Account created successfully!");
         setTimeout(() => navigate("/"), 1000);
 

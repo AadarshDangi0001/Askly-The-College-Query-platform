@@ -12,9 +12,19 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Ensure axios sends cookies to backend
+  // Ensure axios sends cookies to backend and uses our API base
   axios.defaults.withCredentials = true;
   axios.defaults.baseURL = API_BASE;
+
+  // Add Authorization header from localStorage token (fallback when cookies blocked)
+  axios.interceptors.request.use((config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers = config.headers || {};
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  });
 
   // On mount, verify auth by fetching profile from backend
   useEffect(() => {
@@ -22,7 +32,7 @@ export const AuthProvider = ({ children }) => {
 
     const verify = async () => {
       try {
-        const res = await axios.get("/api/auth/profile");
+  const res = await axios.get("/api/auth/profile");
         if (mounted && res?.data?.user) {
           setIsAuthenticated(true);
         }
@@ -44,11 +54,12 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post("/api/auth/logout");
+      await axios.post("/api/auth/logout", {}, { withCredentials: true, baseURL: API_BASE });
     } catch {
       // ignore
     }
     setIsAuthenticated(false);
+    localStorage.removeItem('token');
   };
 
   return (

@@ -16,12 +16,24 @@ function setupSocketServer(server) {
   });
 
   io.use(async (socket, next) => {
-    const cookies = cookie.parse(socket.handshake.headers?.cookie || "");
-    if (!cookies.token) {
-      return next(new Error("Authentication error"));
-    }
     try {
-      const decoded = jwt.verify(cookies.token, process.env.JWT_SECRET);
+      const cookies = cookie.parse(socket.handshake.headers?.cookie || "");
+      const headerAuth = socket.handshake.headers?.authorization || socket.handshake.headers?.Authorization;
+      const authToken = socket.handshake.auth?.token;
+
+      let token = cookies.token;
+      if (!token && headerAuth?.startsWith("Bearer ")) {
+        token = headerAuth.slice(7);
+      }
+      if (!token && typeof authToken === 'string') {
+        token = authToken;
+      }
+
+      if (!token) {
+        return next(new Error("Authentication error"));
+      }
+
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const user = await userModel.findById(decoded.userId);
 
       if (!user) {

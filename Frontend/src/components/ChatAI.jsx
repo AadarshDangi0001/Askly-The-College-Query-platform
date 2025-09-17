@@ -7,8 +7,8 @@ import ChatHeader from "./ChatHeader";
 
 // Configure axios to include credentials by default
 axios.defaults.withCredentials = true;
-
-const BACKEND_URL = "https://askly-the-college-query-platform.onrender.com"; // This should match your backend port
+const BACKEND_URL = import.meta.env.VITE_API_BASE || "https://askly-the-college-query-platform.onrender.com"; // backend URL
+axios.defaults.baseURL = BACKEND_URL;
 
 const ChatAI = ({ title }) => {
   const { user, isDesktop } = useUser();
@@ -27,8 +27,11 @@ const ChatAI = ({ title }) => {
   // Connect to socket.io server
   useEffect(() => {
     try {
+      const token = localStorage.getItem('token');
       socketRef.current = io(BACKEND_URL, {
-        withCredentials: true
+        withCredentials: true,
+        auth: token ? { token } : undefined,
+        extraHeaders: token ? { Authorization: `Bearer ${token}` } : undefined,
       });
 
       // Connection events
@@ -96,7 +99,7 @@ const ChatAI = ({ title }) => {
 
   const fetchChats = async () => {
     try {
-      const res = await axios.get(`${BACKEND_URL}/api/chat`, {
+      const res = await axios.get(`/api/chat`, {
         withCredentials: true
       });
       setChats(res.data.chats || []);
@@ -112,7 +115,7 @@ const ChatAI = ({ title }) => {
 
   const fetchMessages = async (chatId) => {
     try {
-      const res = await axios.get(`${BACKEND_URL}/api/chat/messages/${chatId}`, {
+      const res = await axios.get(`/api/chat/messages/${chatId}`, {
         withCredentials: true
       });
       setMessages(res.data.messages || []);
@@ -131,7 +134,7 @@ const ChatAI = ({ title }) => {
     if (!chatId) {
       try {
         console.log("Creating new chat...");
-        const res = await axios.post(`${BACKEND_URL}/api/chat`, { 
+        const res = await axios.post(`/api/chat`, { 
           title: "New Chat" 
         }, {
           withCredentials: true
@@ -157,7 +160,12 @@ const ChatAI = ({ title }) => {
       // Check if socket is connected
       if (!socketRef.current || !socketRef.current.connected) {
         console.error("Socket not connected. Attempting to reconnect...");
-        socketRef.current = io(BACKEND_URL, { withCredentials: true });
+        const token = localStorage.getItem('token');
+        socketRef.current = io(BACKEND_URL, {
+          withCredentials: true,
+          auth: token ? { token } : undefined,
+          extraHeaders: token ? { Authorization: `Bearer ${token}` } : undefined,
+        });
       }
       
       // Send message through socket.io
@@ -180,7 +188,7 @@ const ChatAI = ({ title }) => {
   const handleNewChat = async () => {
     try {
       console.log("Creating new chat...");
-      const res = await axios.post(`${BACKEND_URL}/api/chat`, {
+      const res = await axios.post(`/api/chat`, {
         title: "New Chat"
       }, {
         withCredentials: true
@@ -225,7 +233,7 @@ const ChatAI = ({ title }) => {
     e.stopPropagation(); // Prevent triggering the parent click event
     
     try {
-      await axios.delete(`${BACKEND_URL}/api/chat/${chatId}`, {
+      await axios.delete(`/api/chat/${chatId}`, {
         withCredentials: true
       });
       
@@ -248,7 +256,7 @@ const ChatAI = ({ title }) => {
     if (!currentChatId || !chatTitle.trim()) return;
     
     try {
-      await axios.put(`${BACKEND_URL}/api/chat/${currentChatId}`, {
+      await axios.put(`/api/chat/${currentChatId}`, {
         title: chatTitle
       }, {
         withCredentials: true
