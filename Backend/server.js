@@ -10,8 +10,8 @@ const httpServer = http.createServer(app);
 connectDB();
 setupSocketServer(httpServer);
 
-// startBot();
+startBot();
 
 httpServer.listen(process.env.PORT || 3000, () => {
-  console.log(`Server is running on port ${process.env.PORT || 3000}`);
+  console.log(`Server is running on port ${process.env.PORT || 5000}`);
 });
